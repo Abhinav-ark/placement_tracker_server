@@ -16,8 +16,10 @@ const queries = require('../schema/queries/userWebControllerQueries');
 const fs = require('fs');
 const validator = require('validator');
 const tokenValidator = require('../middleware/webTokenValidator');
+const requestValidator = require('../middleware/requestValidator');
 
-module.exports = {
+module.exports = 
+{
     test: async (req, res) => {
         return res.status(200).send({ "message": 'Ok' });
     },
@@ -608,7 +610,7 @@ module.exports = {
             "userPassword": "<password>"
         }
         */
-        if (req.body.userEmail === null || req.body.userEmail === undefined || req.body.userEmail === "" || !validator.isEmail(req.body.userEmail) || req.body.userPassword === null || req.body.userPassword === undefined || req.body.userPassword === "") {
+        if (requestValidator.isValidUserLoginReq(req)) {
             return res.status(400).send({ "message": "Missing details." });
         }
 
