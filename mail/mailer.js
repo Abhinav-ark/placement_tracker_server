@@ -8,7 +8,13 @@ const TEMPLATE_ACCOUNT_DEACTIVATED = require('./template_account_deactivated');
 const TEMPLATE_PWRESET_OTP = require('./template_pwreset_otp');
 
 const transporter = mailer.createTransport({
-    service: 'Gmail',
+    service: process.env.MAIL_SERVICE ?? 'Gmail',
+    host: process.env.MAIL_HOST ?? 'smtp.gmail.com',
+    port: process.env.MAIL_PORT ?? 587,
+    tls: {
+        ciphers: 'SSLv3',
+        rejectUnauthorized: false,
+    },
     auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASSWORD
